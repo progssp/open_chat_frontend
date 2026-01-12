@@ -4,21 +4,19 @@ import { createBrowserRouter,RouterProvider } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import Login from './components/Login/Login';
-import Test from './components/Test';
+// import Test from './components/Test';
 // import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
+
 const router = createBrowserRouter([
+  
   {
-    path: '/frontend',
+    path: '/app',
     element: <Login/>
   },
   {
-    path: '/frontend/chat',
+    path: '/app/chat',
     element: <App/>
-  },
-  {
-    path: '/frontend/test',
-    element: <Test/>
   }
 ]);
 
@@ -28,4 +26,3 @@ root.render(
     <RouterProvider router={router} />
   </React.StrictMode>
 );
-// serviceWorkerRegistration.register();

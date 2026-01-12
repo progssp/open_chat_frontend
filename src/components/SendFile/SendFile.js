@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import { faXmark,faImage,faFile } from "@fortawesome/free-solid-svg-icons";
-import {main_route, main_api_route,getCurrentUser,getCurrentUserToken, setCurrentUser} from '../../utilities/ExtraUtility';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React,{useContext} from "react";
+import { ChatterContext } from '../../contexts/ChatterContext';
+import {main_route,main_api_route, getCurrentUser,getCurrentUserToken} from '../../utilities/ExtraUtility';
+// import { faXmark,faImage,faFile } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 let this_user = (getCurrentUser()!==null)?getCurrentUser().id:null;
-let cur_user = (getCurrentUser()!==null)?getCurrentUser():null;
-let cur_user_token = (getCurrentUserToken()!==null)?getCurrentUserToken():null;
+// let cur_user = (getCurrentUser()!==null)?getCurrentUser():null;
+// let cur_user_token = (getCurrentUserToken()!==null)?getCurrentUserToken():null;
 
 export default function SendFile(){
+    const [dataFromLeftPanel] = useContext(ChatterContext);
     let arr_for_uploaded = [];
-    let arr_for_uploaded_final = [];
     let index = -1;
 
-    // const [selectedFilesForUpload, setSelectedFilesForUpload] = useState([]);
-
+    //triggered on input=file change
     function handleIconChange(evt){
-        console.log(evt.target.accept);
+        // consolelog(evt.target.accept);
         arr_for_uploaded = [];
 
         // const images = evt.target.files;
@@ -23,24 +23,23 @@ export default function SendFile(){
                 arr_for_uploaded.push(indi_files);
             }
         }
-        console.log(arr_for_uploaded);
-        console.log(evt.target.accept.indexOf("image"));
+        // consolelog(arr_for_uploaded);
+        // consolelog(evt.target.accept.indexOf("image"));
 
         if(evt.target.accept.indexOf("image") > -1){
-            console.log("ready imag");
+            // consolelog("ready imag");
             loadImages();
         }
         else if(evt.target.accept.indexOf("application") > -1){
-            console.log("ready file");
+            // consolelog("ready file");
             loadFiles();
         }
 
     }
 
-
+    //code for processing and displaying images before upload
     function loadImages(){
         if(arr_for_uploaded.length > 0){
-            arr_for_uploaded_final = [];
             document.getElementById("send_images_holder").classList.remove('hidden');
             index = -1;
             document.getElementById("send_images_holder").innerHTML = "";
@@ -58,7 +57,7 @@ export default function SendFile(){
         const reader = new FileReader();
         reader.readAsDataURL(image_file);
         reader.addEventListener('load', (data) => {
-            console.log(image_file.name + " loaded");
+            // consolelog(image_file.name + " loaded");
             
             index++;
             arr_for_uploaded.push(image_file);
@@ -66,7 +65,7 @@ export default function SendFile(){
 
             let close_btn = document.createElement("button");
             close_btn.innerHTML = "X";
-            let class_list = "absolute bg-gray-800 right-0 top-0 text-white text-sm p-2 ml-auto inline-flex items-center";
+            let class_list = "absolute bg-gray-800 right-0 top-0 text-white text-xl font-weight shadow-md px-3 py-2 ml-auto inline-flex items-center md:px-5";
             close_btn.id = "delete_"+index;
             close_btn.addEventListener('click',deleteImage);
             let class_list_arr = class_list.split(" ");
@@ -80,16 +79,19 @@ export default function SendFile(){
             image.classList.add('w-full');
             
             let imag_div = document.createElement("div");
-            imag_div.classList.add("m-1");
+            imag_div.classList.add("mx-2");
+            imag_div.classList.add("my-2");
             imag_div.classList.add("relative");
+            imag_div.classList.add("shadow-md");
+            imag_div.classList.add("border");
             
             imag_div.appendChild(close_btn);
             imag_div.appendChild(image);
 
             document.getElementById("send_images_holder").appendChild(imag_div);
             
-            console.log(index);
-            console.log(arr_for_uploaded);
+            // consolelog(index);
+            // consolelog(arr_for_uploaded);
         });
     }
     function deleteImage(image){
@@ -97,14 +99,16 @@ export default function SendFile(){
         id = id.split("_");
         id = parseInt(id[1]);
         // id = id - 1;
-        console.log(id);
+        // consolelog(id);
         arr_for_uploaded.splice(id,1);
-        console.log(arr_for_uploaded);
+        // consolelog(arr_for_uploaded);
         loadImages();
     }
+    //code for processing and displaying images before upload (end)
 
 
-
+    
+    //code for processing and displaying files before upload
     function loadFiles(){
         if(arr_for_uploaded.length > 0){
             document.getElementById("send_images_holder").classList.remove('hidden');
@@ -152,14 +156,16 @@ export default function SendFile(){
         id = id.split("_");
         id = parseInt(id[1]);
         // id = id - 1;
-        console.log(id);
+        // consolelog(id);
         arr_for_uploaded.splice(id,1);
-        console.log(arr_for_uploaded);
+        // consolelog(arr_for_uploaded);
         loadFiles();
     }
+    //code for processing and displaying files before upload
 
 
-
+    
+    //triggered on browse buttons click
     function browseFiles(evt){
         let input = document.createElement('input');
         input.type = 'file';
@@ -175,53 +181,167 @@ export default function SendFile(){
         
         input.click();
     }
-
+    
+    //code for closing modal
     function closeModal(){
         document.getElementById("send-file-modal").classList.add("invisible");
-        document.getElementById('send_file_preview').src = ``;
-        document.getElementById('files_to_send').value = null;
+        document.getElementById("send_images_holder").innerHTML = "";
+        document.getElementById("send_images_holder").classList.add('hidden');
     }
 
-    function handleSubmit(evt){
+    
+    //triggered on send button click
+    function handleSendFileAsMessage(evt){
         evt.preventDefault();
-        // let edit_profile_icon = evt.target[0].files[0];
-        // let edit_profile_name = evt.target[1].value;
-        // let edit_profile_email = evt.target[2].value;
-
-        // let fd = new FormData();
-        // fd.append("edit_profile_icon",edit_profile_icon);
-        // fd.append("edit_profile_name",edit_profile_name);
-        // fd.append("edit_profile_email",edit_profile_email);
-        
-        // fetch(`${main_api_route}/user/edit-profile`,{
-        //     method: 'POST',
-        //     headers: {
-        //         'Authorization': "Bearer "+cur_user_token
-        //     },
-        //     body: fd
-        // })
-        // .then(res => res.json())
-        // .then(result => {
-        //     console.log(result);
-        //     if(result.status){
-        //         let user_obj = getCurrentUser();
-        //         user_obj = result.user;
-        //         setCurrentUser(user_obj);
-        //         window.location.reload();
-        //     }
-        //     else{
-        //     }
-        // })
-        // .catch(err => {
-        //     console.error(err);
-        // });
-        
+        let send_file_msg = document.getElementById("send_file_msg_tf").value;
+        let send_file_msg_tmp = send_file_msg;
+        send_file_msg_tmp = send_file_msg.trim();
+        send_file_msg_tmp = send_file_msg_tmp.replace(/ /g,"");
+        // console.log(`orig string: ${send_file_msg}, tmp_string: ${send_file_msg_tmp}, string_len: ${send_file_msg_tmp.length}`);
+        // return;
+        // consolelog('submitted');
+        if(arr_for_uploaded.length === 0){
+            alert("Select files to send!");
+            return;
+        }
+        if(Object.keys(dataFromLeftPanel).length !== 0){
+            // consolelog('length not zero');
+            // consolelog(dataFromLeftPanel.message_type);
+          
+            if(!('message_type' in dataFromLeftPanel)){
+                // send_one_to_one_message(dataFromLeftPanel.id,msg);
+                // consolelog('m type undefined');
+                if(send_file_msg_tmp.length > 0){
+                    send_file_as_one_to_one_message(dataFromLeftPanel.id,arr_for_uploaded,send_file_msg);
+                }
+                else{                    
+                    send_file_as_one_to_one_message(dataFromLeftPanel.id,arr_for_uploaded);
+                }
+            }
+            else {
+                // consolelog('m type not undefined');
+                if(dataFromLeftPanel.message_type.indexOf("group") > -1){
+                    // consolelog('sending gorup msg');
+                    if(send_file_msg_tmp.length > 0){
+                        send_file_as_group_message(dataFromLeftPanel.group_id,arr_for_uploaded,send_file_msg);
+                    }
+                    else{
+                        send_file_as_group_message(dataFromLeftPanel.group_id,arr_for_uploaded);
+                    }
+                }
+                else if(dataFromLeftPanel.message_type.indexOf("one_to_one") > -1){
+                    // consolelog('sending 1t1 msg');
+                    if(parseInt(dataFromLeftPanel.sender_id) === parseInt(this_user)){
+                        if(send_file_msg_tmp.length > 0){
+                            send_file_as_one_to_one_message(dataFromLeftPanel.receiver_id,arr_for_uploaded,send_file_msg);
+                        }
+                        else{                    
+                            send_file_as_one_to_one_message(dataFromLeftPanel.receiver_id,arr_for_uploaded);
+                        }
+                    }
+                    else{
+                        if(send_file_msg_tmp.length > 0){
+                            send_file_as_one_to_one_message(dataFromLeftPanel.sender_id,arr_for_uploaded,send_file_msg);
+                        }
+                        else{                    
+                            send_file_as_one_to_one_message(dataFromLeftPanel.sender_id,arr_for_uploaded);
+                        }
+                    }
+                }
+            }
+        }    
     }
+
+    function send_file_as_group_message(group_id, files_to_send, msg = null){
+        let fd = new FormData();
+        for (var i = 0; i < files_to_send.length; i++) {
+            fd.append('files_to_send[]', files_to_send[i]);
+        }
+        if(msg !== null){
+            fd.append("message",msg);
+        }
+        else{
+            fd.delete("message");
+        }
+        // fd.append("files_to_send", files_to_send);
+        fd.append("group_id", group_id);
+        // console.log(fd);
+        // return;
+
+        document.getElementById("file_send_btn").innerHTML = `<img src='${main_route}/loader.gif' style="width:1.5rem;height:1.5rem;"/>`;
+        document.getElementById("file_send_btn").disabled = true;
+
+        fetch(`${main_api_route}/user/send-group-message`,{
+            method: 'POST',
+            headers: {
+                // 'Authorization': "Bearer "+cur_user_token
+            },
+            body: fd
+        })
+        .then(res => res.json())
+        .then(result => {
+            // console.log(result);
+            document.getElementById("file_send_btn").innerHTML = "Send";
+            document.getElementById("file_send_btn").disabled = false;
+            document.getElementById("send_images_holder").innerHTML = "";
+            document.getElementById("send_images_holder").classList.add('hidden');
+            document.getElementById("send_file_msg_tf").value = "";
+
+            
+        })
+        .catch(err => {
+            console.error(err);
+            document.getElementById("file_send_btn").innerHTML = "Send";
+            document.getElementById("file_send_btn").disabled = false;
+        });
+    }
+
+    function send_file_as_one_to_one_message(receiver_id, files_to_send, msg = null){
+        let fd = new FormData();
+        for (var i = 0; i < files_to_send.length; i++) {
+            fd.append('files_to_send[]', files_to_send[i]);
+        }
+        if(msg !== null){
+            fd.append("message",msg);
+        }
+        else{
+            fd.delete("message");
+        }
+        // fd.append("files_to_send", files_to_send);
+        fd.append("receiver_id", receiver_id);
+        // console.log(fd);
+        // return;
+        document.getElementById("file_send_btn").innerHTML = `<img src='${main_route}/loader.gif' style="width:1.5rem;height:1.5rem;"/>`;
+        document.getElementById("file_send_btn").disabled = true;
+
+        fetch(`${main_api_route}/user/send-one-to-one-message`,{
+            method: 'POST',
+            headers: {
+                // 'Authorization': "Bearer "+cur_user_token
+            },
+            body: fd
+        })
+        .then(res => res.json())
+        .then(result => {
+            // console.log(result);
+            document.getElementById("file_send_btn").innerHTML = "Send";
+            document.getElementById("file_send_btn").disabled = false;
+            document.getElementById("send_images_holder").innerHTML = "";
+            document.getElementById("send_images_holder").classList.add('hidden');
+            document.getElementById("send_file_msg_tf").value = "";
+        })
+        .catch(err => {
+            console.error(err);
+            document.getElementById("file_send_btn").innerHTML = "Send";
+            document.getElementById("file_send_btn").disabled = false;
+        });
+    }
+    
 
     return (
         <div>
-            <div id="send-file-modal" className={`visible fixed top-0 px-5 pb-12 bg-[#000000a7] flex items-center justify-center h-screen w-screen overflow-y-scroll sm:px-[15%] md:px-[25%]`}>
-                <div className="relative z-50 w-full max-h-full">
+            <div id="send-file-modal" className={`invisible fixed z-50 top-0 px-5 pb-12 bg-[#000000a7] flex items-center justify-center h-screen w-screen overflow-y-scroll`}>
+                <div className="relative z-50 w-full sm:w-[60%] md:w-[60%] max-h-full">
                     <div className="relative w-full">
                         {/* <!-- Modal content --> */}
                         <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -231,7 +351,7 @@ export default function SendFile(){
                             </button>
                             <div className="px-6 py-6 lg:px-8">
                                 <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">Send File</h3>
-                                <form className="space-y-6" onSubmit={handleSubmit}>
+                                <form className="space-y-6" onSubmit={handleSendFileAsMessage}>
                                     <div id="send_images_holder" className="hidden flex-wrap justify-center border w-full max-h-80 overflow-y-scroll">           
                                           
                                         {/* <div className="m-1 relative">
@@ -258,9 +378,14 @@ export default function SendFile(){
                                             Browse documents
                                         </button>                                        
                                     </div>
+
+                                    <div>
+                                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Message</label>
+                                        <input type="text" name="send_file_msg_tf" id="send_file_msg_tf" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" />
+                                    </div>
                                     
                                     
-                                    <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Send</button>
+                                    <button id="file_send_btn" type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Send</button>
                                     
                                 </form>
                             </div>

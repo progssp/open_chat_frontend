@@ -1,31 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script type="text/javascript">
+      if(window.location.pathname == "/app" || window.location.pathname == "/app/"){
+        // console.log("no check");
+        
+      }
+      else{
+        // console.log("shoud trigg");
+        fetch(window.location.origin+"/system/api/user/check-auth",{
+            method: 'POST'
+        })
+        .then(result => result.json())
+        .then(data => {
+            if(!data.status){
+              // window.location.href = "/app";
+            }
+        })
+        .catch(err => {
+            console.error(err);
+        });
+      }
+    </script>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/frontend/favicon.ico" />
+    <link rel="icon" href="%PUBLIC_URL%/logo192.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
       content="Web site created using create-react-app"
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/frontend/logo192.png" />
-    <link rel="manifest" href="%PUBLIC_URL%/frontend/manifest.json" />
-    <title>React App</title>
-    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <title>Open chat</title>
+    <!-- <script src="https://js.pusher.com/7.0/pusher.min.js"></script> -->
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
 
-    <script type="text/javascript">
-      if(window.location.pathname.indexOf("/chat") > -1){
-        if(window.localStorage.getItem('cur_user') === null){
-          window.location.href = "/frontend";
-        }
+    
+	  <!-- <script src="%PUBLIC_URL%/app/static/js/bundle.js"></script> -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', async () => {
+          try{
+            let registration = await navigator.serviceWorker.register('/app/service-worker.js',{scope:"/app"});
+          
+            console.log(registration);            
+            let reg_obj = await navigator.serviceWorker.ready;
+            
+            console.log(reg_obj);              
+          }
+          catch(ex){
+            console.error(ex.message);            
+          }
+          
+          // .then(registration => {
+          //   Notification.requestPermission();            
+          //   registration.sync.register('get_messages');
+          //   console.log("sync reg");
+                          
+          // })
+          
+        })
       }
     </script>
-	  <script src="%PUBLIC_URL%/frontend/static/js/bundle.js"></script>
   </body>
   
 </html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/app/logo192.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Code Cabinet Studios is a video streaming app where you will find content related to programming in video format" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link rel="apple-touch-icon" href="/app/logo192.png" />
+    <link rel="manifest" href="/app/asset-manifest.json" />
+	<link href="/app/static/css/main.4670cf4e.css" rel="stylesheet">
+    <title>Code Cabinet Studios - A vide streaming app</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T7WZ8J0QQ1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-T7WZ8J0QQ1');
+    </script>
+
+    <!-- Google ads -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6384475273375812"
+     crossorigin="anonymous"></script>
+    <style>
+        .app_title{
+            color:var(--input_text_color);
+            font-size:2em;
+        }
+        .app_subtitle{
+            margin-top: 10px;
+            color:var(--input_text_color);
+            font-size:1.8em;
+        }
+        .app_action_msg{
+            color:var(--input_text_color);
+            font-size:1.1em;
+        }
+        .logo {
+            width:auto;
+            margin:20px;
+        }
+
+        @media screen and (min-width:640px){
+            .app_title{
+                font-size:3em;
+            }
+            .app_subtitle{
+                color:var(--input_text_color);
+                font-size:2.5em;
+            }
+            .app_action_msg{
+                color:var(--input_text_color);
+                font-size:2em;
+            }
+        }
+        @media screen and (min-width:768px){
+            .app_title{
+                font-size:2em;
+            }
+        }
+        @media screen and (min-width:1024px){
+            .app_title{
+                font-size:3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <noscript style="color:var(--input_text_color);">You need to enable JavaScript to run this app.</noscript>
+    <div class='bg-transparent flex flex-wrap justify-center h-screen mx-0 sm:mx-[15%] md:mx-[5%]'>      
+        <div class="bg-transparent w-screen m-auto p-0">
+            
+                <div style="text-align: center;">
+                    <p class="app_title">Code Cabinet Studios</p>
+                    <p class="app_subtitle">See code in action</p>
+                </div>
+                
+                
+                <div style="display:flex;justify-content: center;text-align: center;">
+                    <a href="/app">
+                        <img src="/app/logo192.png" alt="code_cabinet_studios_video_streaming_app_logo" class="logo" />
+                    </a>
+                </div>
+
+                <div style="text-align: center;">                    
+                    <p class="app_action_msg">Tap the logo to view the app</p>
+                </div>      
+            
+        </div>            
+    </div>
+	<div style="display:flex;justify-content: center;position:absolute;bottom:0;width:100%;">
+		<p style="font-size:1.2em;color:var(--input_text_color);">&copy Copyright 2025 Code Cabinet Studios</p>
+	</div>
+    <script>
+    if((window.localStorage.getItem("darkmode") === null) || (window.localStorage.getItem("darkmode") === undefined)){
+        document.documentElement.className = "";
+        // document.body.style.backgroundColor = "white";
+    }
+    else{
+        if((window.localStorage.getItem("darkmode") === "dark")){
+        document.documentElement.className = "dark";
+        document.body.style.backgroundColor = "rgb(54,54,54)";
+        }
+        else{
+        document.documentElement.className = "light";
+        document.body.style.backgroundColor = "white"; 
+        }
+    }    
+    </script>
+</body>
+</html>

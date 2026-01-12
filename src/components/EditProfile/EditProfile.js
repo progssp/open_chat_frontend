@@ -8,8 +8,8 @@ export default function EditProfile(){
 
 
     function handleIconChange(evt){
-        console.log(evt.target.files.length);
-        console.log(evt.target.files[0]);
+        // console.log(evt.target.files.length);
+        // console.log(evt.target.files[0]);
         var reader = new FileReader();
         reader.onload = function (e) {
             document.getElementById('edit_profile_preview').src = e.target.result;
@@ -25,44 +25,52 @@ export default function EditProfile(){
     }
 
     function handleSubmit(evt){
+        document.getElementById("submit_btn").innerHTML = `<img src='${main_route}/loader.gif' style="width:1.5rem;height:1.5rem;"/>`;
+        document.getElementById("submit_btn").disabled = true;
+
         evt.preventDefault();
         let edit_profile_icon = evt.target[0].files[0];
-        let edit_profile_name = evt.target[1].value;
-        let edit_profile_email = evt.target[2].value;
+        let edit_profile_fname = evt.target[1].value;
+        let edit_profile_lname = evt.target[2].value;
 
         let fd = new FormData();
         fd.append("edit_profile_icon",edit_profile_icon);
-        fd.append("edit_profile_name",edit_profile_name);
-        fd.append("edit_profile_email",edit_profile_email);
+        fd.append("edit_profile_fname",edit_profile_fname);
+        fd.append("edit_profile_lname",edit_profile_lname);
         
         fetch(`${main_api_route}/user/edit-profile`,{
             method: 'POST',
             headers: {
-                'Authorization': "Bearer "+cur_user_token
+                // 'Authorization': "Bearer "+cur_user_token
             },
             body: fd
         })
         .then(res => res.json())
         .then(result => {
-            console.log(result);
+            document.getElementById("submit_btn").innerHTML = "Save";
+            document.getElementById("submit_btn").disabled = false;
+
+            // console.log(result);
             if(result.status){
                 let user_obj = getCurrentUser();
                 user_obj = result.user;
                 setCurrentUser(user_obj);
-                window.location.reload();
+                // window.location.reload();
             }
             else{
             }
         })
         .catch(err => {
-            console.error(err);
+            // console.error(err);
+            document.getElementById("submit_btn").innerHTML = "Save";
+            document.getElementById("submit_btn").disabled = false;
         });
         
     }
 
     return (
         <div>
-            <div id="edit-profile-modal" className={`invisible fixed top-0 px-5 pb-12 bg-[#000000a7] flex items-center justify-center h-screen w-screen overflow-y-scroll sm:px-[15%] md:px-[25%]`}>
+            <div id="edit-profile-modal" className={`invisible fixed z-50 top-0 px-5 pb-12 bg-[#000000a7] flex items-center justify-center h-screen w-screen overflow-y-scroll sm:px-[15%] md:px-[25%]`}>
                 <div className="relative z-50 w-full max-h-full">
                     <div className="relative w-full">
                         {/* <!-- Modal content --> */}
@@ -79,18 +87,22 @@ export default function EditProfile(){
                                     </div>
                                     <div>
                                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Icon</label>
-                                        <input type="file" onChange={handleIconChange} name="edit_profile_icon" id="edit_profile_icon" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                                        <input type="file" onChange={handleIconChange} name="edit_profile_icon" id="edit_profile_icon" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" />
                                     </div>
                                     <div>
-                                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                                        <input type="text" name="edit_profile_name" id="edit_profile_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name" required />
+                                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name (*)</label>
+                                        <input type="text" name="edit_profile_fname" id="edit_profile_fname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name" required />
                                     </div>
                                     <div>
-                                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                                        <input type="email" name="edit_profile_email" id="edit_profile_email" placeholder="email@email.com" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name (*)</label>
+                                        <input type="text" name="edit_profile_lname" id="edit_profile_lname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name" required />
+                                    </div>
+                                    <div>
+                                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email (*)</label>
+                                        <input readOnly type="email" name="edit_profile_email" id="edit_profile_email" placeholder="email@email.com" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
                                     </div>
                                     
-                                    <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save</button>
+                                    <button id="submit_btn" type="submit" className="flex justify-center w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save</button>
                                     
                                 </form>
                             </div>

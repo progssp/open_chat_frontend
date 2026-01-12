@@ -7,7 +7,7 @@ let cur_user_token = (getCurrentUserToken()!==null)?getCurrentUserToken():null;
 export default function CreateGroup(){
 
     const [group_id,setGroupId] = useState(9);
-    const [members,setMembers] = useState([{id: this_user,name: cur_user.name}]);
+    const [members,setMembers] = useState([{id: this_user,name: cur_user.user_first_name+""+cur_user.user_last_name}]);
     const [users,setUsers] = useState([]);
 
     useEffect(()=>{},[]);
@@ -40,6 +40,10 @@ export default function CreateGroup(){
         fd.append("name",name);
         fd.append("tagline",tagline);
         fd.append("description",description);
+
+        
+        document.getElementById("modal1_submit").disabled = true;
+        document.getElementById("modal1_submit").innerHTML = `<img src='${main_route}/loader.gif' style="width:1.5rem;height:1.5rem;"/>`;
         
         fetch(`${main_api_route}/user/create-group`,{
             method: 'POST',
@@ -53,13 +57,20 @@ export default function CreateGroup(){
             if(result.status){     
                 setGroupId(parseInt(result.data));   
                 document.getElementById("create-group-modal1").classList.add("invisible");
-                document.getElementById("create-group-modal2").classList.remove("invisible");     
+                document.getElementById("create-group-modal2").classList.remove("invisible"); 
+               
+                document.getElementById("modal1_submit").disabled = false;
+                document.getElementById("modal1_submit").innerHTML = `Next`;    
             }
             else{
+                document.getElementById("modal1_submit").disabled = false;
+                document.getElementById("modal1_submit").innerHTML = `Next`;
             }
         })
         .catch(err => {
             console.error(err);
+            document.getElementById("modal1_submit").disabled = false;
+            document.getElementById("modal1_submit").innerHTML = `Next`;
         });
         
     }
@@ -162,6 +173,10 @@ export default function CreateGroup(){
             mem_id.push(element.id);            
         });
         console.log(JSON.stringify(mem_id));
+
+        document.getElementById("modal2_submit").disabled = true;
+        document.getElementById("modal2_submit").innerHTML = `<img src='${main_route}/loader.gif' style="width:1.5rem;height:1.5rem;"/>`;
+
         fetch(`${main_api_route}/user/add-members-in-group`,{
             method: 'POST',
             headers: {
@@ -172,16 +187,25 @@ export default function CreateGroup(){
         })
         .then(res => res.json())
         .then(result => {
-            console.log(result);
+            // console.log(result);
+            document.getElementById("modal2_submit").disabled = false;
+            document.getElementById("modal2_submit").innerHTML = `Create group`;
+            if(result.status){
+                window.location.reload();
+            }
+            else{}
+            
         })
         .catch(err => {
-            console.error(err);
+            // console.error(err);
+            document.getElementById("modal2_submit").disabled = false;
+            document.getElementById("modal2_submit").innerHTML = `Create group`;
         });
     }
 
     return (
         <div>
-            <div id="create-group-modal1" className={`invisible overflow-y-scroll fixed top-0 px-5 bg-[#000000a7] flex items-center justify-start h-screen w-full sm:px-[15%] md:px-[25%]`}>
+            <div id="create-group-modal1" className={`invisible overflow-y-scroll fixed z-50 top-0 px-5 bg-[#000000a7] flex items-center justify-start h-screen w-full sm:px-[15%] md:px-[25%]`}>
                 <div className="relative z-50 w-full max-h-full">
                     <div className="relative w-full">
                         {/* <!-- Modal content --> */}
@@ -213,7 +237,7 @@ export default function CreateGroup(){
                                         <input type="text" name="description" id="description" placeholder="description" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
                                     </div>
                                     
-                                    <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Next</button>
+                                    <button id="modal1_submit" type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Next</button>
                                     
                                 </form>
                             </div>
@@ -223,7 +247,7 @@ export default function CreateGroup(){
             </div>
 
             
-            <div id="create-group-modal2" className={`invisible overflow-y-scroll fixed top-0 px-5 bg-[#000000a7] flex items-center justify-start h-screen w-full sm:px-[15%] md:px-[25%]`}>
+            <div id="create-group-modal2" className={`invisible overflow-y-scroll z-50 fixed top-0 px-5 bg-[#000000a7] flex items-center justify-start h-screen w-full sm:px-[15%] md:px-[25%]`}>
                 <div className="relative z-50 w-full max-h-full">
                     <div className="relative w-full">
                         {/* <!-- Modal content --> */}
@@ -246,7 +270,7 @@ export default function CreateGroup(){
                                         <ul>
                                             {users.map((element) =>
                                                 (<li key={element.id} id={element.id} onClick={addToMemberList} className="inline-block rounded shadow-md cursor-pointer m-1 bg-[rgb(1,166,26)] w-auto">
-                                                    {element.name}      
+                                                    {element.user_first_name+""+element.user_last_name}      
                                                 </li>)                                                
                                             )}
                                         </ul>
@@ -273,7 +297,7 @@ export default function CreateGroup(){
                                     
                                     <div className="flex justify-between">
                                         <button onClick={handlePrevModal2} type="button" className="w-auto text-white bg-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Previous</button>
-                                        <button onClick={createGroup} type="button" className="w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create Group</button>
+                                        <button id="modal2_submit" onClick={createGroup} type="button" className="w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create Group</button>
                                     </div>
 
                                 </form>

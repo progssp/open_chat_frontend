@@ -2,9 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+
+html{
+    virtual-keyboard: overlays-content;
+}
+
 @layer components {
     .search_field{
         @apply bg-[rgb(255,255,255,0.5)] text-white p-2 w-[100%];
     }
-    
+
 }
