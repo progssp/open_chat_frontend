@@ -10,7 +10,7 @@
     },
     {
       "source": "/system/:path*",
-      "destination": "https://openchatbackend-production.up.railway.app*"
+      "destination": "https://openchatbackend-production.up.railway.app/:path*"
     },
     {
       "source": "/app/asset-manifest.json",
