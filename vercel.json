@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/app/:asset.(png|jpg|jpeg|gif|svg|webp|ico)",
-      "destination": "/:asset"
+      "source": "/app/:file.(png|jpg|jpeg|gif|svg|webp|ico)",
+      "destination": "/:file.$1"
     },
     { "source": "/app/static/:path*", "destination": "/static/:path*" },
     { "source": "/app/manifest.json", "destination": "/manifest.json" },
