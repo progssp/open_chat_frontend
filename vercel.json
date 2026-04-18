@@ -1,12 +1,11 @@
 {
   "rewrites": [
-    { "source": "/app/manifest.json", "destination": "/manifest.json" },
-    { "source": "/app/static/(.*)", "destination": "/static/$1" },
-
     {
-      "source": "/app/:path*. (png|jpg|jpeg|gif|svg|webp|ico)",
-      "destination": "/:path*. (png|jpg|jpeg|gif|svg|webp|ico)"
+      "source": "/app/:asset.(png|jpg|jpeg|gif|svg|webp|ico)",
+      "destination": "/:asset"
     },
+    { "source": "/app/static/:path*", "destination": "/static/:path*" },
+    { "source": "/app/manifest.json", "destination": "/manifest.json" },
     { "source": "/app/(.*)", "destination": "/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
