@@ -1,8 +1,12 @@
 {
   "rewrites": [
     {
-      "source": "/app/(.*\\.(?:js|css|png|jpg|jpeg|gif|ico|webp|svg|json))$",
-      "destination": "/$1"
+      "source": "/app/:file.(js|css|png|jpg|jpeg|gif|ico|webp|svg|json)",
+      "destination": "/:file.$1"
+    },
+    {
+      "source": "/app/static/:path*",
+      "destination": "/static/path*"
     },
     { "source": "/app/(.*)", "destination": "/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
