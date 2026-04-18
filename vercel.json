@@ -6,7 +6,7 @@
     },
     {
       "source": "/app/static/:path*",
-      "destination": "/static/path*"
+      "destination": "/static/:path*"
     },
     { "source": "/app/(.*)", "destination": "/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
