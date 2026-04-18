@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    { "source": "/app/manifest.json", "destination": "/manifest.json" },
+    { "source": "/app/static/(.*)", "destination": "/static/$1" },
+    { "source": "/app/(.*)", "destination": "/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
