@@ -2,13 +2,10 @@
   "rewrites": [
     { "source": "/app/manifest.json", "destination": "/manifest.json" },
     { "source": "/app/static/(.*)", "destination": "/static/$1" },
+
     {
-      "source": "/app/static/media/:path*",
-      "destination": "/static/media/:path*"
-    },
-    {
-      "source": "/app/:image.(png|jpg|jpeg|gif|svg|webp|ico)",
-      "destination": "/:image.(png|jpg|jpeg|gif|svg|webp|ico)"
+      "source": "/app/:path*. (png|jpg|jpeg|gif|svg|webp|ico)",
+      "destination": "/:path*. (png|jpg|jpeg|gif|svg|webp|ico)"
     },
     { "source": "/app/(.*)", "destination": "/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
