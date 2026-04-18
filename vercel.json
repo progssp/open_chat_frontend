@@ -1,12 +1,11 @@
 {
+  "version": 2,
   "cleanUrls": true,
   "rewrites": [
     {
-      "source": "/app/:file.(png|jpg|jpeg|gif|svg|webp|ico)",
-      "destination": "/:file.$1"
+      "source": "/app/(.*\\.(?:png|jpg|jpeg|gif|svg|webp|ico))$",
+      "destination": "/$1"
     },
-    { "source": "/app/static/:path*", "destination": "/static/:path*" },
-    { "source": "/app/manifest.json", "destination": "/manifest.json" },
     { "source": "/app/(.*)", "destination": "/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
