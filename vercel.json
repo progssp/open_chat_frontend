@@ -1,13 +1,18 @@
 {
   "rewrites": [
     {
-      "source": "/app/:file.(js|css|png|jpg|jpeg|gif|ico|webp|svg|json)",
-      "destination": "/:file.$1"
+      "source": "/app/images/:path*",
+      "destination": "/images/:path*"
     },
     {
       "source": "/app/static/:path*",
       "destination": "/static/:path*"
     },
+    {
+      "source": "/app/asset-manifest.json",
+      "destination": "/asset-manifest.json"
+    },
+    { "source": "/app/manifest.json", "destination": "/manifest.json" },
     { "source": "/app/(.*)", "destination": "/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]

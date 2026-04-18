@@ -307,7 +307,7 @@ export default function Login() {
         <div className="flex flex-col items-center overflow-y-scroll justify-center h-screen bg-slate-200 dark:bg-gray-700 px-2">
           <div className="flex flex-col items-center">
             <img
-              src={` ${process.env.PUBLIC_URL}/logo192.png `}
+              src={` ${process.env.PUBLIC_URL}/images/logo192.png `}
               alt="openchat logo"
               className="rounded-full w-40"
             />
@@ -384,7 +384,7 @@ export default function Login() {
         <div className="flex flex-col items-center justify-center overflow-y-scroll h-screen bg-slate-200 dark:bg-gray-700 px-2">
           <div className="flex flex-col items-start">
             <img
-              src={` ${process.env.PUBLIC_URL}/logo192.png `}
+              src={` ${process.env.PUBLIC_URL}/images/logo192.png `}
               alt="openchat logo"
               className="rounded-full w-40"
             />
