@@ -2,6 +2,10 @@
   "trailingSlash": false,
   "rewrites": [
     {
+      "source": "/system/api/:path*",
+      "destination": "https://openchatbackend-production.up.railway.app*"
+    },
+    {
       "source": "/app/images/:path*",
       "destination": "/images/:path*"
     },
@@ -10,15 +14,10 @@
       "destination": "/static/:path*"
     },
     {
-      "source": "/system/api:path*",
-      "destination": "https://openchatbackend-production.up.railway.app*"
-    },
-    {
       "source": "/app/asset-manifest.json",
       "destination": "/asset-manifest.json"
     },
     { "source": "/app/manifest.json", "destination": "/manifest.json" },
-    { "source": "/app/(.*)", "destination": "/index.html" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/app/(.*)", "destination": "/index.html" }
   ]
 }
