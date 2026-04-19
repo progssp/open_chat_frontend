@@ -9,8 +9,8 @@
       "destination": "/static/:path*"
     },
     {
-      "source": "/system/:path*",
-      "destination": "https://openchatbackend-production.up.railway.app:path*"
+      "source": "/system/api:path*",
+      "destination": "https://openchatbackend-production.up.railway.app*"
     },
     {
       "source": "/app/asset-manifest.json",
