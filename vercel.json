@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/system/api/:path*",
-      "destination": "https://openchatbackend-production.up.railway.app:path*"
+      "destination": "https://openchatbackend-production.up.railway.app/system/api/:path*"
     },
     {
       "source": "/app/images/:path*",
