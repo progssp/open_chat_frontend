@@ -32,7 +32,6 @@ function LeftPanel() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': "Bearer sspssp"
         },
         body: 'user_id='+this_user
       })
@@ -81,7 +80,6 @@ function LeftPanel() {
 
     if(found_index === -1){
       // console.log("not found. placing rec at 0 index");
-      
       new_st.splice(0,0,new_obj);
     }
     else{
@@ -312,9 +310,10 @@ function LeftPanel() {
   }
 
   if(channel_for_left_panel !== null){
-    // channel_for_left_panel.unbind('App\\Events\\MessageSent');
+    channel_for_left_panel.unbind('App\\Events\\MessageSent');
     channel_for_left_panel.bind('App\\Events\\MessageSent',(d) => {
-      // console.log("from left panel" + d);
+      // console.log("from left panel");
+      // console.log(d.last_msg);
       update_list(d.last_msg);
     });
   }
@@ -509,7 +508,7 @@ function LeftPanel() {
                               <div className="flex justify-between items-start mt-2 md:mt-2">
                                 <p className="text-white mt-1 text-sm self-start md:block">
                                   {
-                                    (item.sender_id === this_user)?"you" : item.sender_nm
+                                    (parseInt(item.sender_id) === parseInt(this_user))?"you" : item.sender_nm
                                   }:
                                   {
                                     (item.file_path !== null)?

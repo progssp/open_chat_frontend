@@ -30,13 +30,15 @@ export default function CreateGroup(){
 
     function handleNextModal1(evt){
         evt.preventDefault();
-        let icon = evt.target[0].files[0];
+        let icon = (evt.target[0].files.length !== 0)?evt.target[0].files[0]:null;
         let name = evt.target[1].value;
         let tagline = evt.target[2].value;
         let description = evt.target[3].value;
 
         let fd = new FormData();
-        fd.append("icon",icon);
+        if(icon !== null){
+            fd.append("icon",icon);
+        }
         fd.append("name",name);
         fd.append("tagline",tagline);
         fd.append("description",description);
@@ -191,7 +193,11 @@ export default function CreateGroup(){
             document.getElementById("modal2_submit").disabled = false;
             document.getElementById("modal2_submit").innerHTML = `Create group`;
             if(result.status){
-                window.location.reload();
+                // window.location.reload();
+                document.getElementById("create-group-modal1").classList.add("invisible");
+                document.getElementById("create-group-modal2").classList.add("invisible");
+                document.getElementById('preview').src = `${main_route}/user_images/profile_pictures/profile2.jpg`;
+                document.getElementById('icon').value = null;
             }
             else{}
             
@@ -222,7 +228,7 @@ export default function CreateGroup(){
                                     </div>
                                     <div>
                                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Icon</label>
-                                        <input type="file" onChange={handleIconChange} name="icon" id="icon" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                                        <input type="file" onChange={handleIconChange} name="icon" id="icon" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" />
                                     </div>
                                     <div>
                                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>

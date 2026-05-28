@@ -3,11 +3,11 @@
   "rewrites": [
     {
       "source": "/system/api/:path*",
-      "destination": "https://openchatbackend-production.up.railway.app/system/api/:path*"
+      "destination": "https://system.tailf90f7d.ts.net/system/api/:path*"
     },
     {
       "source": "/storage/:path*",
-      "destination": "https://openchatbackend-production.up.railway.app/storage/:path*"
+      "destination": "https://system.tailf90f7d.ts.net/storage/:path*"
     },
     {
       "source": "/app/images/:path*",

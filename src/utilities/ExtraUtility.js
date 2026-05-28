@@ -80,10 +80,14 @@ export function subscribeSocket() {
         },
       },
       forceTLS: true,
-      // wsHost: "localhost",
+      // wsHost: "https://system.tailf90f7d.ts.net",
       // wsHost: window.location.hostname,
-      // wsPort: 6001,
+      // wsPort: 80,
+      // wssPort: 443,
+      // enabledTransports: ['ws','wss']
     });
+    console.info(`pusher info`);
+    console.info(`${pusher}`);
     // // console.log('socket authenticated for user: '+user.id);
     channel = pusher.subscribe("private-user-" + user.id);
     channel_for_left_panel = pusher.subscribe("private-user-" + user.id);
@@ -107,6 +111,11 @@ export function subs_video_channel() {
       },
     },
     forceTLS: true,
+    // wsHost: "https://system.tailf90f7d.ts.net",
+    // wsHost: window.location.hostname,
+    // wsPort: 80,
+    // wssPort: 443,
+    // enabledTransports: ['ws','wss']
     // wsHost: "localhost",
     // wsHost: window.location.hostname,
     // wsPort: 6001,

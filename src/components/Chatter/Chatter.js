@@ -43,12 +43,12 @@ function Chatter() {
       })
       .then(result => result.json())
       .then(data => {
-        // console.log(data);
-        data = data.reverse();
-        setChats(data);
-        setScroll(parseInt(document.getElementById('chats_container').scrollHeight));
-        // console.log(scroll);
-        
+          // console.log(data);
+          data = data.messages.reverse();
+          setChats(data.messages);
+          setScroll(parseInt(document.getElementById('chats_container').scrollHeight));
+          // console.log(scroll);
+    
         document.getElementById('chats_container').scrollTop = document.getElementById('chats_container').scrollHeight;
         setTimeout(()=>{document.getElementById('box_end').scrollIntoView({ behavior: 'smooth', block: 'end' });},500);
         document.getElementById("chat_loader").classList.remove("inline");
@@ -72,11 +72,12 @@ function Chatter() {
       })
       .then(result => result.json())
       .then(data => {
-        // console.log(data);        
-        data = data.reverse();
-        setChats(data);
-        // console.log(scroll);
-        
+        if(data.status){
+          console.log(data.messages);        
+          data = data.messages.reverse();
+          setChats(data.messages);
+          // console.log(scroll);
+        }
         setScroll(parseInt(document.getElementById('chat_list_div').scrollHeight));
         document.getElementById('chat_list_div').scrollTop = document.getElementById('chat_list_div').scrollHeight;
         document.getElementById('chat_list_div').scrollIntoView({ behavior: 'smooth', block: 'end' });
