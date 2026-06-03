@@ -3,11 +3,11 @@
   "rewrites": [
     {
       "source": "/system/api/:path*",
-      "destination": "https://system.tailf90f7d.ts.net/system/api/:path*"
+      "destination": "https://open-chat-backend-ha1m.onrender.com/system/api/:path*"
     },
     {
       "source": "/storage/:path*",
-      "destination": "https://system.tailf90f7d.ts.net/storage/:path*"
+      "destination": "https://open-chat-backend-ha1m.onrender.com/storage/:path*"
     },
     {
       "source": "/app/images/:path*",
