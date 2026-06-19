@@ -1,30 +1,30 @@
 import React, { useEffect, useState, useContext } from "react";
 import { ChatterContext } from "../../contexts/ChatterContext";
 import {
-  main_route,
-  main_api_route,
-  getCurrentUser,
-  getCurrentUserToken,
+    main_route,
+    main_api_route,
+    getCurrentUser,
+    getCurrentUserToken,
 } from "../../utilities/ExtraUtility";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faPhone,
-  faVolumeUp,
-  faVolumeOff,
-  faPlay,
-  faStop,
+    faPhone,
+    faVolumeUp,
+    faVolumeOff,
+    faPlay,
+    faStop,
 } from "@fortawesome/free-solid-svg-icons";
 import {
-  subscribeSocket,
-  subs_video_channel,
-  backend_images_route,
+    subscribeSocket,
+    subs_video_channel,
+backend_images_route,
 } from "../../utilities/ExtraUtility";
 let channel = subscribeSocket();
 let video_channel = subs_video_channel();
 let this_user = getCurrentUser() !== null ? getCurrentUser().id : null;
 let cur_user = getCurrentUser() !== null ? getCurrentUser() : null;
 let cur_user_token =
-  getCurrentUserToken() !== null ? getCurrentUserToken() : null;
+getCurrentUserToken() !== null ? getCurrentUserToken() : null;
 
 // Initialize variables
 let localVideo = null;
@@ -38,16 +38,16 @@ let cameraAccess = 0;
 let timeout = null;
 
 const configuration = {
-  iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
+    iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
 };
 
 export default function VideoCall() {
-  const [caller, set_caller] = useState({});
-  const [callee, set_callee] = useState({});
-  const [dataFromLeftPanel, setDataFromLeftPanel, chats, setChats] =
+    const [caller, set_caller] = useState({});
+    const [callee, set_callee] = useState({});
+    const [dataFromLeftPanel, setDataFromLeftPanel, chats, setChats] =
     useContext(ChatterContext);
-  const [stop_video, set_stop_video] = useState(false);
-  const [stop_audio, set_stop_audio] = useState(false);
+    const [stop_video, set_stop_video] = useState(false);
+    const [stop_audio, set_stop_audio] = useState(false);
 
   useEffect(() => {}, []);
 
@@ -125,11 +125,12 @@ export default function VideoCall() {
   }
 
   function acceptCall(evt) {
+    clearTimeout(timeout);
     // let to = document.getElementById("call_from_span").innerHTML;
     video_channel.trigger("client-accept-call", { from: this_user, to: to });
     document.getElementById("call-request-modal").classList.add("invisible");
     document.getElementById("video-call-modal").classList.remove("invisible");
-    clearTimeout(timeout);
+    
   }
 
   function rejectCall(evt) {
@@ -258,90 +259,74 @@ export default function VideoCall() {
     video_channel.bind("client-unanswered-call", handleUnansweredCall);
   }
 
-  function handleCallRequest(data) {
-    if (
-      parseInt(data.callee.callee_id) === parseInt(this_user) ||
-      parseInt(data.from.id) === parseInt(this_user)
-    ) {
-      // console.log(data);
-      set_caller(data.from);
-      set_callee(data.callee);
-    }
+    function handleCallRequest(data) {
+        if (
+            parseInt(data.callee.callee_id) === parseInt(this_user) ||
+            parseInt(data.from.id) === parseInt(this_user)
+        ) {
+            // console.log(data);
+            set_caller(data.from);
+            set_callee(data.callee);
+        }
 
-    // console.log(data);
-    // condition for caller
-    if (parseInt(data.from.id) == parseInt(this_user)) {
-      const video = document.getElementById("sender_vid");
+        // console.log(data);
+        // condition for caller
+        if (parseInt(data.from.id) == parseInt(this_user)) {
+            const video = document.getElementById("sender_vid");
 
-      // A video's MediaStream object is available through its srcObject attribute
-      const mediaStream = video.srcObject;
-      localStream = mediaStream;
-      to = data.to;
-      remoteVideo = document.querySelector("#rec_vid");
-      remoteAudio = document.querySelector("#rec_audio");
+            // A video's MediaStream object is available through its srcObject attribute
+            const mediaStream = video.srcObject;
+            localStream = mediaStream;
+            to = data.to;
+            remoteVideo = document.querySelector("#rec_vid");
+            remoteAudio = document.querySelector("#rec_audio");
 
-      document
-        .getElementById("call-request-modal")
-        .classList.remove("invisible");
-      document.getElementById("call_from_span").innerHTML = "";
-      document.getElementById("call_from_name_span").innerHTML =
-        data.callee.callee_name;
-      document.getElementById("call_from_image").style.backgroundImage =
-        `url('${backend_images_route}${data.callee.callee_icon}`;
-      document.getElementById("accept_call_btn").style.display = `none`;
-      timeout = setTimeout(() => {
-        triggerChannelEvent(video_channel, "client-unanswered-call", {
-          from: this_user,
-          to: to,
-        });
-        document
-          .getElementById("call-request-modal")
-          .classList.add("invisible");
-        stopBothVideoAndAudio();
-        clearTimeout(timeout);
-      }, 40000);
-    }
+            document.getElementById("call-request-modal").classList.remove("invisible");
+            document.getElementById("call_from_span").innerHTML = "";
+            document.getElementById("call_from_name_span").innerHTML = data.callee.callee_name;
+            document.getElementById("call_from_image").style.backgroundImage = `url('${backend_images_route}${data.callee.callee_icon}`;
+            document.getElementById("accept_call_btn").style.display = `none`;
+            timeout = setTimeout(() => {
+                triggerChannelEvent(video_channel, "client-unanswered-call", {
+                    from: this_user,
+                    to: to,
+                });
+                document.getElementById("call-request-modal").classList.add("invisible");
+                stopBothVideoAndAudio();
+                clearTimeout(timeout);
+            }, 40000);
+        }
 
-    //condition for callee
-    if (parseInt(data.to) == parseInt(this_user)) {
-      // if(!pc){
-      to = data.from.id;
-      document
-        .getElementById("call-request-modal")
-        .classList.remove("invisible");
-      document.getElementById("call_from_span").innerHTML = parseInt(
-        data.from.id,
-      );
-      document.getElementById("call_from_name_span").innerHTML =
-        data.from.user_first_name;
-      document.getElementById("call_from_image").style.backgroundImage =
-        `url('${backend_images_route}${data.from.icon}`;
-      document.getElementById("accept_call_btn").style.display = `block`;
-      timeout = setTimeout(() => {
-        triggerChannelEvent(video_channel, "client-unanswered-call", {
-          from: this_user,
-          to: to,
-        });
-        document
-          .getElementById("call-request-modal")
-          .classList.add("invisible");
-        stopBothVideoAndAudio();
-        clearTimeout(timeout);
-      }, 30000);
-      getCam()
-        .then(() => {
-          // console.log("now trigger event");
-        })
-        .catch((err) => {
-          // console.error(err);
-          document
-            .getElementById("call-request-modal")
-            .classList.add("invisible");
-          triggerChannelEvent(video_channel, "client-stop-call-", {
-            from: this_user,
-            to: to,
-          });
-        });
+        //condition for callee
+        if (parseInt(data.to) == parseInt(this_user)) {
+            // if(!pc){
+            to = data.from.id;
+            document.getElementById("call-request-modal").classList.remove("invisible");
+            document.getElementById("call_from_span").innerHTML = parseInt(data.from.id);
+            document.getElementById("call_from_name_span").innerHTML = data.from.user_first_name;
+            document.getElementById("call_from_image").style.backgroundImage = `url('${backend_images_route}${data.from.icon}`;
+            document.getElementById("accept_call_btn").style.display = `block`;
+            timeout = setTimeout(() => {
+                triggerChannelEvent(video_channel, "client-unanswered-call", {
+                    from: this_user,
+                    to: to,
+                });
+                document.getElementById("call-request-modal").classList.add("invisible");
+                stopBothVideoAndAudio();
+                clearTimeout(timeout);
+            }, 30000);
+            getCam()
+            .then(() => {
+                // console.log("now trigger event");
+            })
+            .catch((err) => {
+                // console.error(err);
+                document.getElementById("call-request-modal").classList.add("invisible");
+                triggerChannelEvent(video_channel, "client-stop-call-", {
+                    from: this_user,
+                    to: to,
+                });
+            });
       // }
     }
   }

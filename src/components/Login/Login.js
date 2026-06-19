@@ -365,7 +365,7 @@ export default function Login() {
                 </button>
                 <img
                   id="loader"
-                  src={`${main_route}/loader.gif`}
+                  src={`${main_route}/images/loader.gif`}
                   alt="loader"
                   className="hidden w-10"
                 />
@@ -475,7 +475,7 @@ export default function Login() {
                   </button>
                   <img
                     id="username_check_loader"
-                    src={`${main_route}/loader.gif`}
+                    src={`${main_route}/images/loader.gif`}
                     alt="loader"
                     className="hidden w-5"
                   />
@@ -493,7 +493,7 @@ export default function Login() {
                 </button>
                 <img
                   id="signup_loader"
-                  src={`${main_route}/loader.gif`}
+                  src={`${main_route}/images/loader.gif`}
                   alt="loader"
                   className="hidden w-10"
                 />
