@@ -26,7 +26,10 @@ function Chatter() {
     const [scroll, setScroll] = useState(0);
 
     useEffect(()=>{
-        setChats([]);
+        console.log("chatter runnging");
+        console.log(dataFromLeftPanel);
+        
+        //setChats([]);
         
         function getOneToOneData(sender_id,receiver_id){
             document.getElementById("chat_loader").classList.remove("hidden");
@@ -101,21 +104,21 @@ function Chatter() {
 
         if(Object.entries(dataFromLeftPanel).length !== 0){
             if(!('message_type' in dataFromLeftPanel)){
-                getOneToOneData(this_user,dataFromLeftPanel.id);
+                //getOneToOneData(this_user,dataFromLeftPanel.id);
             }
             else{
                 if((dataFromLeftPanel.message_type.indexOf("one_to_one") > -1)){
                     if(dataFromLeftPanel.sender_id === this_user){
-                        getOneToOneData(this_user,dataFromLeftPanel.receiver_id);
+                        //getOneToOneData(this_user,dataFromLeftPanel.receiver_id);
                     }
                     else{
                         // console.log(`getdata(${dataFromLeftPanel.sender_id},${this_user})`)
-                        getOneToOneData(dataFromLeftPanel.sender_id,this_user);
+                        //getOneToOneData(dataFromLeftPanel.sender_id,this_user);
                     }
                 }
                 else if((dataFromLeftPanel.message_type.indexOf("group")>-1)){      
                     // console.log(`getgroupdata(${dataFromLeftPanel.group_id}`)
-                    getGroupData(dataFromLeftPanel.group_id);
+                    //getGroupData(dataFromLeftPanel.group_id);
                 }
             }
         }
