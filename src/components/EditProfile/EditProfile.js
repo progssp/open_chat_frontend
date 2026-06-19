@@ -25,7 +25,7 @@ export default function EditProfile(){
     }
 
     function handleSubmit(evt){
-        document.getElementById("submit_btn").innerHTML = `<img src='${main_route}/loader.gif' style="width:1.5rem;height:1.5rem;"/>`;
+        document.getElementById("submit_btn").innerHTML = `<img src='${main_route}/images/loader.gif' style="width:1.5rem;height:1.5rem;"/>`;
         document.getElementById("submit_btn").disabled = true;
 
         evt.preventDefault();

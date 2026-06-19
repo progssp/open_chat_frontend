@@ -268,7 +268,7 @@ export default function SendFile(){
         // console.log(fd);
         // return;
 
-        document.getElementById("file_send_btn").innerHTML = `<img src='${main_route}/loader.gif' style="width:1.5rem;height:1.5rem;"/>`;
+        document.getElementById("file_send_btn").innerHTML = `<img src='${main_route}/images/loader.gif' style="width:1.5rem;height:1.5rem;"/>`;
         document.getElementById("file_send_btn").disabled = true;
 
         fetch(`${main_api_route}/user/send-group-message`,{
@@ -311,7 +311,7 @@ export default function SendFile(){
         fd.append("receiver_id", receiver_id);
         // console.log(fd);
         // return;
-        document.getElementById("file_send_btn").innerHTML = `<img src='${main_route}/loader.gif' style="width:1.5rem;height:1.5rem;"/>`;
+        document.getElementById("file_send_btn").innerHTML = `<img src='${main_route}/images/loader.gif' style="width:1.5rem;height:1.5rem;"/>`;
         document.getElementById("file_send_btn").disabled = true;
 
         fetch(`${main_api_route}/user/send-one-to-one-message`,{

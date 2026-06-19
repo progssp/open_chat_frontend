@@ -45,7 +45,7 @@ export default function CreateGroup(){
 
         
         document.getElementById("modal1_submit").disabled = true;
-        document.getElementById("modal1_submit").innerHTML = `<img src='${main_route}/loader.gif' style="width:1.5rem;height:1.5rem;"/>`;
+        document.getElementById("modal1_submit").innerHTML = `<img src='${main_route}/images/loader.gif' style="width:1.5rem;height:1.5rem;"/>`;
         
         fetch(`${main_api_route}/user/create-group`,{
             method: 'POST',
@@ -177,7 +177,7 @@ export default function CreateGroup(){
         console.log(JSON.stringify(mem_id));
 
         document.getElementById("modal2_submit").disabled = true;
-        document.getElementById("modal2_submit").innerHTML = `<img src='${main_route}/loader.gif' style="width:1.5rem;height:1.5rem;"/>`;
+        document.getElementById("modal2_submit").innerHTML = `<img src='${main_route}/images/loader.gif' style="width:1.5rem;height:1.5rem;"/>`;
 
         fetch(`${main_api_route}/user/add-members-in-group`,{
             method: 'POST',
