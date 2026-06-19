@@ -501,7 +501,9 @@ function Chatter() {
                   </div>
                 </div>
                 <div>
-                   <button onClick={startVideoCall} className='text-white shadow-md px-2 py-1 bg-[rgb(16,118,255)] rounded-lg hover:inset-2'><FontAwesomeIcon icon={faPhone} /></button>
+                    {((!('message_type' in dataFromLeftPanel)) || (dataFromLeftPanel.message_type.indexOf("group") < 0))?(
+                        <button onClick={startVideoCall} className='text-white shadow-md px-2 py-1 bg-[rgb(16,118,255)] rounded-lg hover:inset-2'><FontAwesomeIcon icon={faPhone} /></button>
+                    ):null}
                 </div>
             </div>
 
