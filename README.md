@@ -28,6 +28,7 @@ Open chat frontend is an app for instant messaging and video calling.
 ### 1. User authentication window
 <details>
 <summary><b>View architecture: session lifecycle</b></summary>
+
 ```mermaid
 graph LR
     A[React client UI] -->|1. Submit credentials| B(fetch request)
